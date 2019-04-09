@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "190628157023",
+    "firebase_url": "https://bookido-app.firebaseio.com",
+    "project_id": "bookido-app",
+    "storage_bucket": "bookido-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190628157023:android:7e30fbb8fb140e56",
+        "android_client_info": {
+          "package_name": "com.happycode.bookido"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190628157023-mdbh2gvse0ju9rokrfu6kcf5mp1pc3s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoUdBArJOcnK2ExE_7_ulczRiu65Bjxp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190628157023-mdbh2gvse0ju9rokrfu6kcf5mp1pc3s1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "190628157023-hp52r78uumnspbq1tv412tub6raqcute.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.happycode.bookido"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

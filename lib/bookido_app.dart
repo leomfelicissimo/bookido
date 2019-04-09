@@ -16,7 +16,7 @@ class _BookidoState extends State<BookidoApp> {
   String _visionText;
 
   Future extractTextFromImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
     var visionImage = FirebaseVisionImage.fromFile(image);
     var recognizerResult = await textRecognizer.processImage(visionImage);
     var visionText =

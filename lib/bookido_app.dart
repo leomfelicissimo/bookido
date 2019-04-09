@@ -19,7 +19,8 @@ class _BookidoState extends State<BookidoApp> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     var visionImage = FirebaseVisionImage.fromFile(image);
     var recognizerResult = await textRecognizer.processImage(visionImage);
-    var visionText = recognizerResult != null ? recognizerResult.text : 'Não detectado';
+    var visionText =
+        recognizerResult != null ? recognizerResult.text : 'Não detectado';
 
     setState(() {
       _image = image;
@@ -42,7 +43,20 @@ class _BookidoState extends State<BookidoApp> {
         ],
       );
     } else {
-      return Text('Clique no botão captura para obter uma imagem.');
+      const textStyle = TextStyle(
+        color: Colors.blue,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w900,
+        fontFamily: 'Georgia',
+      );
+
+      return Center(
+          child: Container(
+              child: Center(
+                  child: Text('Clique no botão captura para obter uma imagem.',
+                      style: textStyle)),
+              width: 200.0,
+              height: 240.0));
     }
   }
 

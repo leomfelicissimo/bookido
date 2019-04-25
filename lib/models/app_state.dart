@@ -13,6 +13,10 @@ class AppModel extends Model {
   // A constructor for when the app is loading.
   factory AppModel.loading() => new AppModel(isLoading: true);
 
+  void setUser(String user) {
+    this.user = user;
+  }
+
   @override
   String toString() {
     return 'AppState{isLoading: $isLoading, user: ${user}}';

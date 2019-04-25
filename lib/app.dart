@@ -1,27 +1,28 @@
 import 'package:bookido/screens/home_screen.dart';
-import 'package:bookido/screens/auth_screen.dart';
+import 'package:bookido/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class AppRootWidget extends StatefulWidget {
-  @override
-  AppRootWidgetState createState() => new AppRootWidgetState();
-}
-
-class AppRootWidgetState extends State<AppRootWidget> {
+class AppRoot extends StatelessWidget {
   ThemeData get _themeData => new ThemeData(
-        primaryColor: Colors.blue,
-        accentColor: Colors.blueAccent,
-        scaffoldBackgroundColor: Colors.grey[300],
-      );
+      primaryColor: Colors.blue,
+      accentColor: Colors.blueAccent,
+      scaffoldBackgroundColor: Colors.grey[300],
+      textTheme: TextTheme(
+          display4: TextStyle(
+              fontFamily: 'Corben',
+              fontWeight: FontWeight.w700,
+              fontSize: 24,
+              color: Colors.black)));
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Bookido',
       theme: _themeData,
+      initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => new HomeScreen(),
-        '/auth': (BuildContext context) => new AuthScreen(),
+        '/': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
       },
     );
   }

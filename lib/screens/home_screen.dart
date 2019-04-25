@@ -1,47 +1,82 @@
-import 'package:bookido/app_state_container.dart';
-import 'package:bookido/models/app_state.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+
+final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
 
 class HomeScreen extends StatefulWidget {
   @override
-  HomeScreenState createState() => new HomeScreenState();
+  _BookidoState createState() => _BookidoState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
-  AppState appState;
+class _BookidoState extends State<HomeScreen> {
+  File _image;
+  String _visionText;
 
-  Widget get _pageToDisplay {
-    if (appState.isLoading) {
-      return _loadingView;
+  Future extractTextFromImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var visionImage = FirebaseVisionImage.fromFile(image);
+    var recognizerResult = await textRecognizer.processImage(visionImage);
+    var visionText =
+        recognizerResult != null ? recognizerResult.text : 'Não detectado';
+
+    setState(() {
+      _image = image;
+      _visionText = visionText;
+    });
+  }
+
+  Widget getBodyContent() {
+    if (_image != null && _visionText != null) {
+      return ListView(
+        children: <Widget>[
+          Image.file(_image),
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              _visionText,
+              softWrap: true,
+            ),
+          ),
+        ],
+      );
     } else {
-      return _homeView;
+      const textStyle = TextStyle(
+        color: Colors.blue,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w900,
+        fontFamily: 'Georgia',
+      );
+
+      return Center(
+          child: Container(
+              child: Center(
+                  child: Text('Clique no botão captura para obter uma imagem.',
+                      style: textStyle)),
+              width: 200.0,
+              height: 240.0));
     }
-  }
-
-  Widget get _loadingView {
-    return new Center(
-      child: new CircularProgressIndicator(),
-    );
-  }
-
-  // new
-  Widget get _homeView {
-    return new Center(child: new Text("Marcio Mendes"));
   }
 
   @override
   Widget build(BuildContext context) {
-    var container = AppStateContainer.of(context);
-
-    appState = container.state;
-
-    Widget body = _pageToDisplay;
-
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Bookido'),
+    return MaterialApp(
+      title: 'Bookido',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Bookido'),
+        ),
+        body: Container(
+          child: getBodyContent(),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add_a_photo),
+          tooltip: 'Tirar uma foto',
+          onPressed: extractTextFromImage,
+        ),
       ),
-      body: body,
     );
   }
 }

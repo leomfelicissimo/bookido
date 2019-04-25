@@ -1,15 +1,17 @@
-class AppState {
+import 'package:scoped_model/scoped_model.dart';
+
+class AppModel extends Model {
   bool isLoading = false;
   String user = 'Marcio Mendes';
 
   // constructor
-  AppState({
+  AppModel({
     this.isLoading = false,
     this.user,
   });
 
   // A constructor for when the app is loading.
-  factory AppState.loading() => new AppState(isLoading: true);
+  factory AppModel.loading() => new AppModel(isLoading: true);
 
   @override
   String toString() {

@@ -1,17 +1,19 @@
 import 'dart:io';
 
+import 'package:bookido/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 final TextRecognizer textRecognizer = FirebaseVision.instance.textRecognizer();
 
-class BookidoApp extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
   _BookidoState createState() => _BookidoState();
 }
 
-class _BookidoState extends State<BookidoApp> {
+class _BookidoState extends State<HomeScreen> {
   File _image;
   String _visionText;
 
@@ -45,18 +47,30 @@ class _BookidoState extends State<BookidoApp> {
     } else {
       const textStyle = TextStyle(
         color: Colors.blue,
-        fontSize: 24.0,
+        fontSize: 20.0,
         fontWeight: FontWeight.w900,
         fontFamily: 'Georgia',
       );
 
       return Center(
           child: Container(
+              child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ScopedModelDescendant<AppModel>(
+              builder: (context, child, appModel) =>
+                  Text('Olá ${appModel.user}!')),
+          Container(
               child: Center(
-                  child: Text('Clique no botão captura para obter uma imagem.',
-                      style: textStyle)),
+                  child: Text(
+                'Clique no botão captura para obter uma imagem.',
+                style: textStyle,
+                textAlign: TextAlign.center,
+              )),
               width: 200.0,
-              height: 240.0));
+              height: 240.0)
+        ],
+      )));
     }
   }
 

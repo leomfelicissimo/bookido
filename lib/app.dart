@@ -1,5 +1,6 @@
 import 'package:bookido/screens/home_screen.dart';
 import 'package:bookido/screens/login_screen.dart';
+import 'package:bookido/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoot extends StatelessWidget {
@@ -23,6 +24,7 @@ class AppRoot extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
+        '/register': (context) => RegisterScreen(),
       },
     );
   }

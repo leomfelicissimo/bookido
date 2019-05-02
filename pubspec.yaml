@@ -25,7 +25,9 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   image_picker: ^0.4.12+1
-  firebase_ml_vision: ^0.6.0+2
+  firebase_core: ^0.3.4
+  firebase_ml_vision: ^0.7.0+2
+  firebase_auth: ^0.8.4+5
 
   scoped_model: ^1.0.0
 

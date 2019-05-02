@@ -59,7 +59,7 @@ class _BookidoState extends State<HomeScreen> {
         children: <Widget>[
           ScopedModelDescendant<AppModel>(
               builder: (context, child, appModel) =>
-                  Text('Olá ${appModel.user}!')),
+                  Text('Olá ${appModel.user.displayName}!')),
           Container(
               child: Center(
                   child: Text(

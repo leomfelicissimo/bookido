@@ -1,44 +1,54 @@
-import 'package:bookido/auth/bookido_auth.dart';
 import 'package:bookido/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:bookido/auth/bookido_auth.dart';
 
-class LoginScreen extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new _LoginScreenState();
+  State<StatefulWidget> createState() => new _RegisterScreenState();
 }
 
-class _LoginData {
+class _RegisterData {
+  String name = '';
   String email = '';
   String password = '';
+  String confirmPassword = '';
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   // used to validate form
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final BookidoAuth _bookidoAuth = new BookidoAuth();
-  _LoginData _data = new _LoginData();
+  final bookidoAuth = new BookidoAuth();
 
-  void onLoginSubmit(BuildContext context) async {
+  _RegisterData _data = new _RegisterData();
+
+  void onSignUpSubmit(BuildContext context) async {
     var appModel = ScopedModel.of<AppModel>(context);
-
+    
     if (this._formKey.currentState.validate()) {
       _formKey.currentState.save();
-      var user = await _bookidoAuth.signInWithEmail(_data.email, _data.password);
 
-      if (user != null) {
-        appModel.setUser(user);
-        print('Usuario: ${_data.email}');
-        // navigate to the photo screen
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        // TODO: Show message with error
+      try {
+        var user = await bookidoAuth.registerUserWithEmail(
+          _data.email,
+          _data.password,
+          _data.name
+        );
+
+        if (user != null) {
+          appModel.setUser(user);
+          print('Email: ${user.email}');
+          print('Name: ${user.displayName}');
+          print('Uid: ${user.uid}');
+          // navigate to the photo screen
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          // TODO: Show dialog with auth error
+        }
+      } catch (e) {
+        print(e.toString());
       }
     }
-  }
-
-  void onCreateAccountPressed(BuildContext context) {
-    Navigator.pushReplacementNamed(context, '/register');    
   }
 
   String _validatePassword(String value) {
@@ -59,9 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Bem vindo',
+                  Text('Nova Conta',
                       style: Theme.of(context).textTheme.display4),
                   SizedBox(height: 24),
+                  new TextFormField(
+                      decoration: new InputDecoration(hintText: 'Nome'),
+                      onSaved: (String value) {
+                        this._data.name = value;
+                      }),
+                  SizedBox(height: 12),
                   new TextFormField(
                       decoration: new InputDecoration(hintText: 'Email'),
                       onSaved: (String value) {
@@ -75,27 +91,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       onSaved: (String value) {
                         this._data.password = value;
                       }),
+                  SizedBox(height: 12),
+                  new TextFormField(
+                      obscureText: true,
+                      decoration: new InputDecoration(hintText: 'Confirme a Senha'),
+                      validator: this._validatePassword,
+                      onSaved: (String value) {
+                        this._data.confirmPassword = value;
+                      }),
                   SizedBox(height: 24),
                   FlatButton(
                     // Here we call the method above. We need to provide
                     // `context` because that's how ScopedModel.of() reaches
                     // the model.
-                    onPressed: () => onLoginSubmit(context),
+                    onPressed: () => onSignUpSubmit(context),
                     color: Colors.blue,
                     child: Text(
-                      'Acessar',
+                      'Criar conta',
                       style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  FlatButton(
-                    // Here we call the method above. We need to provide
-                    // `context` because that's how ScopedModel.of() reaches
-                    // the model.
-                    onPressed: () => onCreateAccountPressed(context),
-                    color: Colors.transparent,
-                    child: Text(
-                      'Criar uma conta',
-                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ],

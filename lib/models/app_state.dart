@@ -1,8 +1,9 @@
+import 'package:bookido/common/types.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AppModel extends Model {
   bool isLoading = false;
-  String user = 'Marcio Mendes';
+  BookidoUser user;
 
   // constructor
   AppModel({
@@ -13,12 +14,12 @@ class AppModel extends Model {
   // A constructor for when the app is loading.
   factory AppModel.loading() => new AppModel(isLoading: true);
 
-  void setUser(String user) {
+  void setUser(user) {
     this.user = user;
   }
 
   @override
   String toString() {
-    return 'AppState{isLoading: $isLoading, user: ${user}}';
+    return 'AppState{isLoading: $isLoading, user: ${user.email}}';
   }
 }
